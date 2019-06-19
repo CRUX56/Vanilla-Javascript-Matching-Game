@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Union Matching Game</title>
+    <script src="js/app.js" type="text/javascript" async></script>
+    <link rel="stylesheet"  type="text/css" href="css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+</head>
+<body>
+    <div id="app">
+        <!--MAIN APP LAYOUT-->
+        <header>
+            <h1>Card Memory Game</h1> 
+        </header>
+
+        <section id="player-info">
+
+            <div class="player-score">
+                <div id="red-player">
+                    <!--ADD PLAYER SCORE FOR RED PLAYER-->
+                    <p>Red Player <span id="red-score">0</span></p>
+                </div>
+                <div id="blue-player">
+                    <!--ADD PLAYER SCORE FOR BLUE PLAYER-->
+                    <p>Blue Player <span id="blue-score">0</span></p>
+                </div>
+            </div>
+
+        </section>
+
+        <div id="game-container"><!--POPUP FOR CARDS--></div>
+
+        <div id="winners-modal" class="overlay">
+            <div class="popup">
+                <h2>Congrats You have Won</h2>
+                <a class="close" href="#">x</a>
+                <div class="content-1">
+                    <p>Your Score was <span id="final-score"></span></p>
+                </div>
+            </div>
+            <button id="play-again" onclick="playAgain()">
+                Play Again?
+            </button>
+        </div>
+
+    </div>
+</body>
+</html>
