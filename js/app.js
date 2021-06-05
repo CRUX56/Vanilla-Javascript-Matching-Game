@@ -211,8 +211,8 @@ function buildDeck(){
     startGame();
 
     document.getElementById("game-container").innerHTML = `
-    ${cardDeck.map(cardTemplate).join('')}
-`;
+        ${cardDeck.map(cardTemplate).join('')}
+    `;
 }
 
 window.onload = buildDeck();// CHANGED FROM STARTGAME();
@@ -230,76 +230,13 @@ const cards = document.querySelectorAll('.card-base');
 let hasFlippedCard = false;
 let boardLocked = false;
 let firstCard, secondCard;
-let score = 0;
-let turn = true;
+let turn = "red";
 let win = 24;
 let openCards = [];
 let counter = document.querySelector("#red-score");
 let closeicon = document.querySelector(".close");
 
 let modal = document.getElementById("winners-modal");
-
-/*PLAYERS
-let redPlayerScore = document.querySelector("#red-score").innerHTML;
-const bluePlayerScore = document.querySelector("#blue-player .score");*/
-
-//FLIP CARDS
-function flipCard(){
-
-    if (boardLocked) return;
-    if (this === firstCard) return;
-
-    this.classList.add('flip');
-
-    if (!hasFlippedCard) {
-        // FIRST TIME CARD IS CLICKED
-        hasFlippedCard = true;
-        firstCard = this;
-
-        return;
-    }
-
-    // SECOND CARD FLIP
-
-    hasFlippedCard = false;
-    secondCard = this;
-    boardLocked = true;
-
-    checkForCardMatch();
-}
-
-//CHECK IF CARDS MATCH
-
-function checkForCardMatch(){
-
-    //CHECK TO SEE IF CARDS MATCH VIA MATCHING DATASETS
-    let isCardMatch = firstCard.dataset.carmaker === secondCard.dataset.carmaker;
-
-    //ADD SCORE TO PLAYERS
-    if( isCardMatch === true ){
-        
-        //IF CARD MATCHES THEN INTERATE SCORE +1
-        //THEN ADD SCORE TO PLAYER SCORE
-
-        score++;
-        disableCards();
-        return updateScore();
-
-    } else if ( isCardMatch !== true ){
-        
-        //IF CARDS DO NOT MATCH RUN UNCLIPCARD FUNCTION
-        
-        return unflipCards();
-
-    } else {
-
-        //FLIP CARDS BACK OVER IF CARDS DO NOT MATCH
-        isCardMatch ? disableCards() : unflipCards();
-
-    }
-
-    //isCardMatch ? disableCards() : unflipCards();
-}
 
 //DISABLE CARDS IF 2 CARDS ARE "FLIPPED" BUT DON'T MATCH
 
@@ -330,11 +267,84 @@ function resetBoard(){
     secondCard = null;
 }
 
+//FLIP CARDS
+function flipCard(){
+    debugger;
+    if (boardLocked) return;
+    if (this === firstCard) return;
+
+    this.classList.add('flip');
+
+    if (!hasFlippedCard) {
+        // FIRST TIME CARD IS CLICKED
+        hasFlippedCard = true;
+        firstCard = this;
+        return;
+    } else {
+        // SECOND CARD FLIP
+        hasFlippedCard = false;
+        secondCard = this;
+        boardLocked = true;
+    }
+    
+    checkForCardMatch();
+}
+
+//CHECK IF CARDS MATCH
+
+function checkForCardMatch(){
+
+    //CHECK TO SEE IF CARDS MATCH VIA MATCHING DATASETS
+    let isCardMatch = firstCard.dataset.carmaker === secondCard.dataset.carmaker;
+
+    //ADD SCORE TO PLAYERS
+    if( isCardMatch === true ){
+        
+        //IF CARD MATCHES THEN INTERATE SCORE +1
+        //THEN ADD SCORE TO PLAYER SCORE
+
+        //score++;
+        checkTurn();
+        disableCards();
+        return updateScore();
+
+    } else if ( isCardMatch !== true ){
+        
+        //IF CARDS DO NOT MATCH RUN UNCLIPCARD FUNCTION
+        checkTurn();
+        return unflipCards();
+
+    } 
+    /*else {
+
+        //FLIP CARDS BACK OVER IF CARDS DO NOT MATCH
+        isCardMatch ? disableCards() : unflipCards();
+        
+    }*/
+    //isCardMatch ? disableCards() : unflipCards();
+}
+
+//ADD EVENT LISTENERS TO EACH CARD
+cards.forEach(cards => cards.addEventListener('click', flipCard));
+
+function checkTurn(){
+    if(turn == "red"){
+        turn = "blue";
+    } else {
+        turn = "red";
+    }
+    console.log(turn);
+    return turn;
+}
+
 //UPDATE SCORE OF GAME BASED OFF OF MATCHES
 
 function updateScore(){
     // PLEASE SEE CODE BELOW. I WAS ABLE TO GET THE CODE TO UPDATE ONE PLAYER BUT STRUGGLED WITH IMPLEMENTING THE SECOND PLAYER LOGIC.
-    document.getElementById("red-score").innerHTML = `${score}`;
+    let redPlayerScore = document.getElementById("red-score").innerHTML;
+    let bluePlayerScore = document.getElementById("blue-score").innerHTML;
+    let score = 0;
+    //document.getElementById("red-score").innerHTML = `${score}`;
 /*
     if(turn === true){
         document.getElementById("red-score").innerHTML = `${score}`;
@@ -346,9 +356,7 @@ function updateScore(){
      
 }
 
-//ADD EVENT LISTENERS TO EACH CARD
 
-cards.forEach(cards => cards.addEventListener('click', flipCard));
 
 //WINNING MODAL BOX - STRUGGLED WITH IMPLEMENTING A WINNING MESSAGE
 /*
