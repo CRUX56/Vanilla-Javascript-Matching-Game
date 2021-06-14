@@ -235,7 +235,7 @@ let win = 24;
 let openCards = [];
 let counter = document.querySelector("#red-score");
 let closeicon = document.querySelector(".close");
-
+let score = 0;
 let modal = document.getElementById("winners-modal");
 
 //DISABLE CARDS IF 2 CARDS ARE "FLIPPED" BUT DON'T MATCH
@@ -243,7 +243,6 @@ let modal = document.getElementById("winners-modal");
 function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
-
     resetBoard();
 }
 
@@ -253,7 +252,6 @@ function unflipCards(){
     setTimeout(() => {
         firstCard.classList.remove('flip');
         secondCard.classList.remove('flip');
-
         resetBoard();
     }, 1500);
 }
@@ -341,18 +339,29 @@ function checkTurn(){
 
 function updateScore(){
     // PLEASE SEE CODE BELOW. I WAS ABLE TO GET THE CODE TO UPDATE ONE PLAYER BUT STRUGGLED WITH IMPLEMENTING THE SECOND PLAYER LOGIC.
-    let redPlayerScore = document.getElementById("red-score").innerHTML;
-    let bluePlayerScore = document.getElementById("blue-score").innerHTML;
-    let score = 0;
-    //document.getElementById("red-score").innerHTML = `${score}`;
-/*
-    if(turn === true){
-        document.getElementById("red-score").innerHTML = `${score}`;
-    } else if( turn === false) {
-        document.getElementById("blue-score").innerHTML = `${score}`;
-    } else {
-
-    }*/ 
+    debugger;
+    let redPlayerScore = document.getElementById("red-score");
+    let bluePlayerScore = document.getElementById("blue-score");
+    
+    if(turn == "red"){
+        if(score == 0){
+            score++;
+            redPlayerScore.innerHTML = score;
+        } else {
+            score = parseFloat(redPlayerScore.innerHTML);
+            score++;
+            redPlayerScore.innerHTML = score;
+        }
+    } else if(turn == "blue"){
+        if(score == 0){
+            score++;
+            bluePlayerScore.innerHTML = score;
+        } else {
+            score = parseFloat(bluePlayerScore.innerHTML);
+            score++;
+            bluePlayerScore.innerHTML = score;
+        }
+    }
      
 }
 
