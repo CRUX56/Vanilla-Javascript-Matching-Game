@@ -232,7 +232,7 @@ let boardLocked = false;
 let firstCard, secondCard;
 let turn = "red";
 let win = 24;
-let openCards = [];
+let matchedCards = [];
 let counter = document.querySelector("#red-score");
 let closeicon = document.querySelector(".close");
 let score = 0;
@@ -297,29 +297,18 @@ function checkForCardMatch(){
 
     //ADD SCORE TO PLAYERS
     if( isCardMatch === true ){
-        
-        //IF CARD MATCHES THEN INTERATE SCORE +1
-        //THEN ADD SCORE TO PLAYER SCORE
-
-        //score++;
+        matchedCards.push(firstCard,secondCard);
         checkTurn();
         disableCards();
         return updateScore();
-
     } else if ( isCardMatch !== true ){
-        
         //IF CARDS DO NOT MATCH RUN UNCLIPCARD FUNCTION
         checkTurn();
         return unflipCards();
-
     } 
-    /*else {
+    
+    gameFinished();
 
-        //FLIP CARDS BACK OVER IF CARDS DO NOT MATCH
-        isCardMatch ? disableCards() : unflipCards();
-        
-    }*/
-    //isCardMatch ? disableCards() : unflipCards();
 }
 
 //ADD EVENT LISTENERS TO EACH CARD
@@ -365,7 +354,14 @@ function updateScore(){
      
 }
 
-
+function gameFinished(){
+    let remainingCards = parseFloat(matchedCards.length - cardDeck);
+    if ((score === 24) && (matchedCards.length == 24)){
+        //Game completed
+    } else {
+        //Game not completed
+    }
+}
 
 //WINNING MODAL BOX - STRUGGLED WITH IMPLEMENTING A WINNING MESSAGE
 /*
